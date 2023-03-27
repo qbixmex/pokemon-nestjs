@@ -1,0 +1,24 @@
+### FIND ALL
+GET http://localhost:3000/api/pokemon
+
+### FIND ONE
+GET http://localhost:3000/api/pokemon/1
+
+### CREATE
+POST http://localhost:3000/api/pokemon
+Content-Type: application/json
+
+{
+
+}
+
+### UPDATE
+PATCH http://localhost:3000/api/pokemon/1
+Content-Type: application/json
+
+{
+
+}
+
+### DELETE
+DELETE http://localhost:3000/api/pokemon/1
