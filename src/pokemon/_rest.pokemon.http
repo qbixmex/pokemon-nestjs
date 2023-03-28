@@ -9,7 +9,8 @@ POST http://localhost:3000/api/v2/pokemon
 Content-Type: application/json
 
 {
-
+  "name": "Bulbasaur",
+  "no": 1
 }
 
 ### UPDATE
