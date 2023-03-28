@@ -14,8 +14,8 @@ export class PokemonService {
     private readonly pokemonModel: Model<Pokemon>
   ) {}
 
-  findAll() {
-    return `This action returns all pokemon`;
+  async findAll(): Promise<Pokemon[]> {
+    return await this.pokemonModel.find().lean().select('-__v');
   }
 
   async findOne(term: string): Promise<Pokemon> {
