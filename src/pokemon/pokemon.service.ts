@@ -4,6 +4,9 @@ import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 
 @Injectable()
 export class PokemonService {
+
+  constructor() {}
+
   create(createPokemonDto: CreatePokemonDto) {
     return 'This action adds a new pokemon';
   }

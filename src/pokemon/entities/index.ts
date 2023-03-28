@@ -1,1 +1,1 @@
-export { Pokemon } from './pokemon.entity'
+export * from './pokemon.entity';
