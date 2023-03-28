@@ -2,15 +2,15 @@
 GET http://localhost:3000/api/v2/pokemon
 
 ### FIND ONE
-GET http://localhost:3000/api/v2/pokemon/1
+GET http://localhost:3000/api/v2/pokemon/642312eed6d7b3435effbdfd
 
 ### CREATE
 POST http://localhost:3000/api/v2/pokemon
 Content-Type: application/json
 
 {
-  "name": "Bulbasaur",
-  "no": 1
+  "name": "mew",
+  "no": 100
 }
 
 ### UPDATE

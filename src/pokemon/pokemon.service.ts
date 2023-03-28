@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { isValidObjectId, Model } from 'mongoose';
 
 import { CreatePokemonDto, UpdatePokemonDto } from './dto';
 import { Pokemon } from './entities';
@@ -14,21 +14,53 @@ export class PokemonService {
     private readonly pokemonModel: Model<Pokemon>
   ) {}
 
-  async create(createPokemonDto: CreatePokemonDto): Promise<IPokemon> {
+  findAll() {
+    return `This action returns all pokemon`;
+  }
+
+  async findOne(term: string): Promise<Pokemon> {
+
+    let pokemon: Pokemon;
+
+    if ( !isNaN(+term) ) {
+      pokemon = await this.pokemonModel.findOne({ no: term })
+        .lean()
+        .select('-__v');
+    }
+
+    if ( !pokemon && isValidObjectId(term) ) {
+      pokemon = await this.pokemonModel.findById( term )
+        .lean()
+        .select('-__v');
+    }
+
+    if ( !pokemon ) {
+      pokemon = await this.pokemonModel.findOne({ name: term.toLowerCase().trim() })
+        .lean()
+        .select('-__v');
+    }
+
+    if (!pokemon) {
+      throw new NotFoundException(`Pokemon with id, name or no: '${term}' not found!`);
+    }
+
+    return pokemon;
+
+  }
+
+    async create(createPokemonDto: CreatePokemonDto): Promise<Pokemon> {
 
     createPokemonDto.name = createPokemonDto.name.toLowerCase();
 
     try {
 
       const pokemon = await this.pokemonModel.create(createPokemonDto);
-      
-      return {
-        id: pokemon._id as string,
-        name: pokemon.name,
-        no: pokemon.no,
-        createdAt: pokemon.createdAt,
-        updatedAt: pokemon.updatedAt,
-      };
+
+      const doc = await this.pokemonModel.findOne({ _id: pokemon.id })
+        .lean()
+        .select('-__v');
+
+      return doc;
 
     } catch (error) {
 
@@ -43,14 +75,6 @@ export class PokemonService {
 
     }    
 
-  }
-
-  findAll() {
-    return `This action returns all pokemon`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} pokemon`;
   }
 
   update(id: number, updatePokemonDto: UpdatePokemonDto) {
