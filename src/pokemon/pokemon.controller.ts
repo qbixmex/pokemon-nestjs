@@ -36,7 +36,7 @@ export class PokemonController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pokemonService.remove(+id);
+  async remove(@Param('id') id: string): Promise<Pokemon> {
+    return await this.pokemonService.remove(id);
   }
 }

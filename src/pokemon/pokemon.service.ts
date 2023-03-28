@@ -53,11 +53,13 @@ export class PokemonService {
 
       const pokemon = await this.pokemonModel.create(createPokemonDto);
 
-      const doc = await this.pokemonModel.findOne({ _id: pokemon.id })
-        .lean()
-        .select('-__v');
-
-      return doc;
+      return {
+        id: pokemon._id,
+        name: pokemon.name,
+        no: pokemon.no,
+        createdAt: pokemon.createdAt,
+        updatedAt: pokemon.updatedAt,
+      } as Pokemon;
 
     } catch (error) {
       this.handleExceptions(error);
@@ -96,8 +98,20 @@ export class PokemonService {
 
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(id: string): Promise<Pokemon> {
+
+    const pokemon = await this.findOne(id);
+
+    await pokemon.deleteOne();
+
+    return {
+      id: pokemon.id,
+      name: pokemon.name,
+      no: pokemon.no,
+      createdAt: pokemon.createdAt,
+      updatedAt: pokemon.updatedAt,
+    } as Pokemon;
+
   }
 
   private handleExceptions( error: any ) {
