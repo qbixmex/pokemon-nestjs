@@ -1,15 +1,16 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+
 import { PokemonService } from './pokemon.service';
-import { CreatePokemonDto } from './dto/create-pokemon.dto';
-import { UpdatePokemonDto } from './dto/update-pokemon.dto';
+import { CreatePokemonDto, UpdatePokemonDto } from './dto';
+import { IPokemon } from '../interfaces';
 
 @Controller('pokemon')
 export class PokemonController {
   constructor(private readonly pokemonService: PokemonService) {}
 
   @Post()
-  create(@Body() createPokemonDto: CreatePokemonDto) { 
-    return this.pokemonService.create(createPokemonDto);
+  async create(@Body() createPokemonDto: CreatePokemonDto): Promise<IPokemon> { 
+    return await this.pokemonService.create(createPokemonDto);
   }
 
   @Get()

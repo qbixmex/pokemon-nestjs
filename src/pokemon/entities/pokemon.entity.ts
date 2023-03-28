@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, now } from 'mongoose';
 
-export type PokemonDocument = HydratedDocument<Pokemon>;
+// export type PokemonDocument = HydratedDocument<Pokemon>;
 
 @Schema()
 export class Pokemon extends Document {
