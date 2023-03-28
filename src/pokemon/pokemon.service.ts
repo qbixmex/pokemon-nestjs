@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
+import { IPokemon } from 'src/interfaces';
 
 import { CreatePokemonDto, UpdatePokemonDto } from './dto';
 import { Pokemon } from './entities';
-import { IPokemon } from '../interfaces';
 
 @Injectable()
 export class PokemonService {
@@ -24,20 +24,17 @@ export class PokemonService {
 
     if ( !isNaN(+term) ) {
       pokemon = await this.pokemonModel.findOne({ no: term })
-        .lean()
         .select('-__v');
     }
 
     if ( !pokemon && isValidObjectId(term) ) {
       pokemon = await this.pokemonModel.findById( term )
-        .lean()
-        .select('-__v');
+      .select('-__v');
     }
 
     if ( !pokemon ) {
       pokemon = await this.pokemonModel.findOne({ name: term.toLowerCase().trim() })
-        .lean()
-        .select('-__v');
+      .select('-__v');
     }
 
     if (!pokemon) {
@@ -48,7 +45,7 @@ export class PokemonService {
 
   }
 
-    async create(createPokemonDto: CreatePokemonDto): Promise<Pokemon> {
+  async create(createPokemonDto: CreatePokemonDto): Promise<Pokemon> {
 
     createPokemonDto.name = createPokemonDto.name.toLowerCase();
 
@@ -77,8 +74,29 @@ export class PokemonService {
 
   }
 
-  update(id: number, updatePokemonDto: UpdatePokemonDto) {
-    return `This action updates a #${id} pokemon`;
+  async update(
+    term: string,
+    updatePokemonDto: UpdatePokemonDto
+  ): Promise<Pokemon> {
+
+    if ( updatePokemonDto.name ) {
+      updatePokemonDto.name = updatePokemonDto.name.toLowerCase();
+    }
+
+    const pokemon = await this.findOne(term);
+
+    await pokemon.updateOne(updatePokemonDto);
+
+    const updatedPokemon = await this.findOne(term);
+
+    return {
+      id: updatedPokemon._id,
+      name: updatedPokemon.name,
+      no: updatedPokemon.no,
+      createdAt: updatedPokemon.createdAt,
+      updatedAt: updatedPokemon.updatedAt,
+    } as Pokemon;
+
   }
 
   remove(id: number) {

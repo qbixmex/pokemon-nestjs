@@ -9,16 +9,16 @@ POST http://localhost:3000/api/v2/pokemon
 Content-Type: application/json
 
 {
-  "name": "mew",
-  "no": 100
+  "name": "pikachu",
+  "no": 25
 }
 
 ### UPDATE
-PATCH http://localhost:3000/api/v2/pokemon/1
+PATCH http://localhost:3000/api/v2/pokemon/64232e18ab9ebbf45f36e1c9
 Content-Type: application/json
 
 {
-
+  "name": "bulbasaur"
 }
 
 ### DELETE

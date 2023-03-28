@@ -3,7 +3,7 @@ import { Document, HydratedDocument, now } from 'mongoose';
 
 // export type PokemonDocument = HydratedDocument<Pokemon>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Pokemon extends Document {
 
   @Prop({
@@ -21,11 +21,11 @@ export class Pokemon extends Document {
   no: number;
 
   @Prop({ default: now() })
-  createdAt?: number;
-  
-  @Prop({ default: now() })
-  updatedAt?: number;
+  createdAt: Date;
 
+  @Prop({ default: now() })
+  updatedAt: Date;
+  
 }
 
 export const PokemonSchema = SchemaFactory.createForClass( Pokemon );

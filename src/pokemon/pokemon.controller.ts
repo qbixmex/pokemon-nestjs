@@ -21,13 +21,18 @@ export class PokemonController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createPokemonDto: CreatePokemonDto): Promise<Pokemon> { 
+  async create(
+    @Body() createPokemonDto: CreatePokemonDto
+  ): Promise<Pokemon> { 
     return await this.pokemonService.create(createPokemonDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePokemonDto: UpdatePokemonDto) {
-    return this.pokemonService.update(+id, updatePokemonDto);
+  @Patch(':term')
+  async update(
+    @Param('term') term: string,
+    @Body() updatePokemonDto: UpdatePokemonDto,
+  ): Promise<Pokemon> {
+    return await this.pokemonService.update(term, updatePokemonDto);
   }
 
   @Delete(':id')
