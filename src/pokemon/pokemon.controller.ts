@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 
+import { ParseMongoIdPipe } from '../common/pipes';
 import { PokemonService } from './pokemon.service';
 import { CreatePokemonDto, UpdatePokemonDto } from './dto';
-import { IPokemon } from '../interfaces';
 import { Pokemon } from './entities';
 
 @Controller('pokemon')
@@ -36,7 +36,7 @@ export class PokemonController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<Pokemon> {
+  async remove(@Param('id', ParseMongoIdPipe) id: string): Promise<any> {
     return await this.pokemonService.remove(id);
   }
 }
