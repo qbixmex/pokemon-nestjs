@@ -43,3 +43,11 @@ $ yarn run test:e2e
 # test coverage
 $ yarn run test:cov
 ```
+
+## Docker
+
+Run this command to run __docker image__.
+
+```bash
+$ docker-compose up -d
+´´´
