@@ -60,16 +60,7 @@ export class PokemonService {
       return doc;
 
     } catch (error) {
-
-      if (error.code === 11000) {
-        const errorKey = JSON.stringify(error.keyValue); 
-        throw new BadRequestException(`Duplication Error: '${errorKey}' already exists!`);
-      }
-
-      console.log(error);
-
-      throw new InternalServerErrorException('Something went wrong, check server logs');
-
+      this.handleExceptions(error);
     }    
 
   }
@@ -85,21 +76,38 @@ export class PokemonService {
 
     const pokemon = await this.findOne(term);
 
-    await pokemon.updateOne(updatePokemonDto);
+    try {
 
-    const updatedPokemon = await this.findOne(term);
+      await pokemon.updateOne(updatePokemonDto);
 
-    return {
-      id: updatedPokemon._id,
-      name: updatedPokemon.name,
-      no: updatedPokemon.no,
-      createdAt: updatedPokemon.createdAt,
-      updatedAt: updatedPokemon.updatedAt,
-    } as Pokemon;
+      const updatedPokemon = await this.findOne(term);
+
+      return {
+        id: updatedPokemon._id,
+        name: updatedPokemon.name,
+        no: updatedPokemon.no,
+        createdAt: updatedPokemon.createdAt,
+        updatedAt: updatedPokemon.updatedAt,
+      } as Pokemon;
+
+    } catch (error) {
+      this.handleExceptions(error);
+    }
 
   }
 
   remove(id: number) {
     return `This action removes a #${id} pokemon`;
+  }
+
+  private handleExceptions( error: any ) {
+    if (error.code === 11000) {
+      const errorKey = JSON.stringify(error.keyValue); 
+      throw new BadRequestException(`Duplication Error: '${errorKey}' already exists!`);
+    }
+
+    console.log(error);
+
+    throw new InternalServerErrorException('Something went wrong, check server logs');
   }
 }
