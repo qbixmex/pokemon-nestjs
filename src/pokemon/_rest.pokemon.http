@@ -22,4 +22,4 @@ Content-Type: application/json
 }
 
 ### DELETE
-DELETE http://localhost:3000/api/v2/pokemon/64233ace0ca385cba65d1276
+DELETE http://localhost:3000/api/v2/pokemon/64233da6870c2cbcec229af8

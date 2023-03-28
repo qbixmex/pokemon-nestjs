@@ -35,8 +35,10 @@ export class PokemonController {
     return await this.pokemonService.update(term, updatePokemonDto);
   }
 
-  @Delete(':id')
-  async remove(@Param('id', ParseMongoIdPipe) id: string): Promise<any> {
+  @Delete(':id') 
+  async remove(
+    @Param('id', ParseMongoIdPipe) id: string
+  ): Promise<{ message: string }> {
     return await this.pokemonService.remove(id);
   }
 }
