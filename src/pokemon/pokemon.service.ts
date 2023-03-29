@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
 
 import { CreatePokemonDto, UpdatePokemonDto } from './dto';
+import { PaginationDto } from '../common/dtos';
 import { Pokemon } from './entities';
 
 @Injectable()
@@ -13,12 +14,22 @@ export class PokemonService {
     private readonly pokemonModel: Model<Pokemon>
   ) {}
 
-  async findAll(): Promise<Pokemon[]> {
-    const pokemons = await this.pokemonModel.find().lean().select('-__v');
+  async findAll(paginationDto: PaginationDto): Promise<Pokemon[]> {
+
+    const { limit = 10, offset = 0 } = paginationDto;
+
+    const pokemons = await this.pokemonModel.find()
+      .limit(limit)
+      .skip(offset)
+      .select('-__v')
+      .sort({ no: 1 })
+      .lean();
+
     return pokemons.map(pokemon => {
       const { _id, ...rest } = pokemon;
       return { id: _id, ...rest };
     }) as Pokemon[];
+
   }
 
   async findOne(term: string): Promise<Pokemon> {
