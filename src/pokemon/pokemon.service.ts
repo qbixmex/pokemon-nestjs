@@ -11,6 +11,7 @@ import { Pokemon } from './entities';
 export class PokemonService {
 
   private defaultLimit: number;
+  private defaultOffset: number;
 
   constructor(
     @InjectModel(Pokemon.name)
@@ -19,13 +20,14 @@ export class PokemonService {
     private readonly configService: ConfigService,
   ) {
     this.defaultLimit = this.configService.get<number>('defaultLimit');
+    this.defaultOffset = this.configService.get<number>('defaultOffset');
   }
 
   async findAll(paginationDto: PaginationDto): Promise<Pokemon[]> {
 
     const {
       limit = this.defaultLimit,
-      offset = 0
+      offset = this.defaultOffset,
     } = paginationDto;
 
     const pokemons = await this.pokemonModel.find()
