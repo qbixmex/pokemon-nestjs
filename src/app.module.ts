@@ -14,7 +14,7 @@ import { SeedModule } from './seed/seed.module';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
-    MongooseModule.forRoot(process.env.MONGO),
+    MongooseModule.forRoot(process.env.MONGO_URL),
     CommonModule,
     PokemonModule,
     SeedModule,
@@ -22,4 +22,9 @@ import { SeedModule } from './seed/seed.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log("MONGO_URL:", process.env.MONGO_URL);
+    console.log("PORT:", process.env.PORT);
+  }
+}

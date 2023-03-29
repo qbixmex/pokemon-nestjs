@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # DOCKER
 mongo/
+
+# Environment Variables
+.env
