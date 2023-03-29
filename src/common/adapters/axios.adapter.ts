@@ -10,7 +10,7 @@ export class AxiosAdapter implements HttpAdapter {
 
   async get<T>(url: string, limit = 10, offset = 0): Promise<T> {
     try {
-      const { data } = await this.axios.get<T>(`${ url }/pokemon?limit=${ limit }&offset=${ offset }`);
+      const { data } = await this.axios.get<T>(`${ url }?limit=${ limit }&offset=${ offset }`);
       return data;
     } catch(error) {
       throw new Error('There was an error - Check Logs');
