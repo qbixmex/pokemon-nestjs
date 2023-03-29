@@ -14,7 +14,11 @@ export class PokemonService {
   ) {}
 
   async findAll(): Promise<Pokemon[]> {
-    return await this.pokemonModel.find().lean().select('-__v');
+    const pokemons = await this.pokemonModel.find().lean().select('-__v');
+    return pokemons.map(pokemon => {
+      const { _id, ...rest } = pokemon;
+      return { id: _id, ...rest };
+    }) as Pokemon[];
   }
 
   async findOne(term: string): Promise<Pokemon> {
@@ -106,7 +110,7 @@ export class PokemonService {
     }
 
     return {
-      message: `Pokemon deleted successfully'`
+      message: `Pokemon deleted successfully`
     };
 
   }
