@@ -50,4 +50,11 @@ Run this command to run __docker image__.
 
 ```bash
 $ docker-compose up -d
-´´´
+```
+
+## Seed Data
+
+Just run the following endpoint to seed data:
+
+```http://localhost:3000/api/v2/pokemon```
+
