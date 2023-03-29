@@ -28,15 +28,15 @@ export class SeedService {
 
     const { data } = await this.axios.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=650');
 
-    const insertPromisesArray = [];
+    const pokemonsToInsert: SmallPokemon[] = [];
 
     data.results.forEach(({ name, url }) => {
       const segments = url.split('/');
       const no: number = +segments[segments.length - 2];
-      insertPromisesArray.push(this.pokemonModel.create({ name, no }));
+      pokemonsToInsert.push({ name, no });
     });
 
-    await Promise.all(insertPromisesArray);
+    await this.pokemonModel.insertMany(pokemonsToInsert);
 
     return { message: 'Pokemons Seed' };
   }
