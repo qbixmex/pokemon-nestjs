@@ -52,6 +52,17 @@ Run this command to run __docker image__.
 $ docker-compose up -d
 ```
 
+## Environment Variables
+
+Copy ```.env.template``` to ```.env```
+
+And fill the correct values within **.env**.
+
+```bash
+# Terminal
+$ cp .env.template .env
+```
+
 ## Seed Data
 
 Just run the following endpoint to seed data:
