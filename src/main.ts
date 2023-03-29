@@ -4,6 +4,7 @@ import e from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api/v2')
@@ -19,6 +20,11 @@ async function bootstrap() {
     })
   );
 
-  await app.listen(process.env.PORT ?? 3000);
+  const PORT = process.env.PORT;
+
+  await app.listen(PORT);
+
+  console.log(`App running on port ${ PORT }`);
+
 }
 bootstrap();
