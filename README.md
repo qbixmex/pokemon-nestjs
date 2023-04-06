@@ -46,10 +46,18 @@ $ yarn run test:cov
 
 ## Docker
 
-Run this command to run __docker image__.
+### Build
 
 ```bash
-$ docker-compose up -d
+docker-compose -f docker-compose.prod.yaml \
+--env-file .env.prod up --build
+```
+
+### Run
+
+```bash
+docker-compose -f docker-compose.prod.yaml \
+--env-file .env.prod up -d
 ```
 
 ## Environment Variables
